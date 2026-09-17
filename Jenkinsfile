@@ -1,16 +1,10 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent any
+    agent { docker { image 'python:3.14.7-alpine3.24' } }
     stages {
-        stage('Deploy') {
+        stage('build') {
             steps {
-                retry(3) {
-                    bat './flakey-deploy.sh'
-                }
-
-                timeout(time: 3, unit: 'MINUTES') {
-                    bat './health-check.sh'
-                }
+                bat 'python --version'
             }
         }
     }
